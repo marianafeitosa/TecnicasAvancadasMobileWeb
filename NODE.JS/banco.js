@@ -40,6 +40,7 @@ const Agendamentos = sequelize.define('agendamentos',{
 
 })
 
+//constante com a função de sync p sincronizar o que esta em agendamentos
 //Agendamentos.sync({force: true})//força o banco a criar a entidade
 
 Agendamentos.create({
