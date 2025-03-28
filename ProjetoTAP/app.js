@@ -10,11 +10,41 @@ app.set('view engine', 'handlebars')
 
 
 app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json)
+app.use(bodyParser.json())
 
 //chama a url , rota que vai apontar pro arquivo em html
 app.get("/", function(req, res){//req=require res=response 
     res.render("primeira_pagina")// usando o res pq quer enviar a mensagem pro servidor 
+})
+
+//chama a url , rota que vai apontar pro arquivo em html
+app.get("/atualizar", function(req, res){//req=require res=response 
+    res.render("atualizar")// usando o res pq quer enviar a mensagem pro servidor 
+})
+
+app.post('/cadastrar', function(req, res){
+    post.create({
+        nome: req.body.nome,
+        telefone: req.body.telefone,
+        origem: req.body.origem,
+        data_contato: req.body.data_contato,
+        observacao: req.body.observacao
+    }).then(function(){
+        res.redirect('/')
+    }).catch(function(erro){
+        res.send('Erro ao criar o post: ' + erro)
+    })
+})
+
+app.get('/consulta', function(req, res){
+    post.findAll().then(function(posts){ //posts é variavel
+        res.render('consulta', {posts: posts})
+        console.log(posts)
+
+    }
+).catch(function(erro){
+    res.send("Erro ao listar os posts:" +erro)
+})
 })
 
 app.listen(8081, function(){// 8081 porta pro servidor funcionar 
