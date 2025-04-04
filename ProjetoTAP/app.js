@@ -17,10 +17,7 @@ app.get("/", function(req, res){//req=require res=response
     res.render("primeira_pagina")// usando o res pq quer enviar a mensagem pro servidor 
 })
 
-//chama a url , rota que vai apontar pro arquivo em html
-app.get("/atualizar", function(req, res){//req=require res=response 
-    res.render("atualizar")// usando o res pq quer enviar a mensagem pro servidor 
-})
+
 
 app.post('/cadastrar', function(req, res){
     post.create({
@@ -46,6 +43,26 @@ app.get('/consulta', function(req, res){
     res.send("Erro ao listar os posts:" +erro)
 })
 })
+
+//chama a url , rota que vai apontar pro arquivo em html
+app.get("/editar/:id", function(req, res){//req=require res=response 
+    post.findAll({where: {id: req.params.id}}).then(function(posts){
+        res.render("editar", {post:posts})// usando o res pq quer enviar a mensagem pro servidor 
+    }).catch(function(erro){
+        res.send('Erro ao listar os posts:' + erro )
+    })
+   
+})
+
+app.get("/excluir/:id", function(req, res){//req=require res=response 
+    post.destroy({where: {id: req.params.id}}).then(function(posts){
+        res.redirect('/consulta')
+    }).catch(function(erro){
+        res.send('Erro ao listar o post:' + erro )
+    })
+   
+})
+
 
 app.listen(8081, function(){// 8081 porta pro servidor funcionar 
     console.log('Servidor Ativo!')//verifica se o servidor está ativo 
