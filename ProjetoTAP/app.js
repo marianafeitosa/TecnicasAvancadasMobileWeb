@@ -63,6 +63,21 @@ app.get("/excluir/:id", function(req, res){//req=require res=response
    
 })
 
+app.post('/atualizar/:id', function(req, res){
+    post.update({
+        nome: req.body.nome,
+        telefone: req.body.telefone,
+        origem: req.body.origem,
+        data_contato: req.body.data_contato,
+        observacao: req.body.observacao
+
+    }, {where: {id: req.params.id}}).then(function(){
+        res.redirect('./consulta')
+    }).catch(function(erro){
+        res.send('Erro ao atualizar o post:' +erro)
+    })
+});
+
 
 app.listen(8081, function(){// 8081 porta pro servidor funcionar 
     console.log('Servidor Ativo!')//verifica se o servidor está ativo 
